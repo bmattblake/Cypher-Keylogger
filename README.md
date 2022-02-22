@@ -1,6 +1,6 @@
 # Keylogger
 
-NOTE THAT [CTRL + F12] IS THE ONLY WAY TO STOP THE KEYLOGGER ONCE IT STARTS RUNNING
+**Note that [CTRL + F12] is the only way to stop the keylogger once it is running.**
 
 This is a basic Keylogger. It capturs keystorkes, and records them in a file "keylog.txt"
 
