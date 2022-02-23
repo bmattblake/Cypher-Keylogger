@@ -59,5 +59,4 @@ log("-----------------------------\n")
 log(f"End Time: {end_date.hour}:{end_minute} {end_date.month}/{end_date.day}/{end_date.year}\n")
 log("-----------------------------\n")
 
-
 ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
