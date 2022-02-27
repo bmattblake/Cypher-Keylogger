@@ -39,4 +39,4 @@ You may have to allow less secure apps to access your google account.
 
 **DISCLAIMER:**
 
-This keylogger was made for educational purposes only. I do not condone any malicious usage of this keylogger.
+This keylogger was made for educational purposes only. I do not condone any use of this keylogger for malicious intent.
