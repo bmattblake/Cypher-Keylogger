@@ -25,7 +25,7 @@ The script will then email ```keylog.txt``` to a specified emaail address.
 
 **TROUBLESHOOTING:**
 
-If your sender email address is a gmail ccount, and you are getting the following error:
+If your sender email address is a gmail account, and you are getting the following error:
 ```
 smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials k125-20020a37a183000000b005f170f7e497sm4061876qke.47 - gsmtp')
 ```
