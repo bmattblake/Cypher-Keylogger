@@ -1,19 +1,19 @@
 # Keylogger
 
-**DSCRIPTION:**
+**DESCRIPTION:**
 
 **Note that [L CTRL + F12] is the only way to stop the keylogger once it is running.**
 
-This is a basic keylogger. It capturs keystorkes and records them locally in a file ```keylog.txt```.
+This is a basic keylogger. It captures keystrokes and records them locally in a file ```keylog.txt```.
 
-The script will then email ```keylog.txt``` to a specified emaail address.
+The script will then email ```keylog.txt``` to a specified email address.
 
 ---
 
 **FEATURES:**
 
 - Local Storage: Stores logs in a file ```keylog.txt```.
-- Email: Sends logs to a specified email address. Note: You must specicify the following:
+- Email: Sends logs to a specified email address. Note: You must specify the following:
     - Sender email address
     - Sender email address account password
     - Recipient email address
@@ -39,4 +39,4 @@ You may have to allow less secure apps to access your google account.
 
 **DISCLAIMER:**
 
-This keylogger was made for educational purposes only. I do not condone malicious useage of this keylogger.
+This keylogger was made for educational purposes only. I do not condone any malicious usage of this keylogger.
