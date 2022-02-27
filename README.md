@@ -31,7 +31,8 @@ smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepte
 ```
 You may have to allow less secure apps to access your google account. 
 
-More information here: https://support.google.com/accounts/answer/6010255
+- More information here: https://support.google.com/accounts/answer/6010255.
+- ***DO NOT DISABLE THIS FEATURE ON YOUR PERSONAL GMAIL ACCOUNT***. Disabling this security feature will make your google account more vulnerable to attacks. 
 
 ---
 
