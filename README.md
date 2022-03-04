@@ -17,7 +17,7 @@ The script will then email ```keylog.txt``` to a specified email address.
     - Sender email address
     - Sender email address account password
     - Recipient email address
-    - SMTP server (default is ```smtp.gmail.com```)
+    - SMTP server (default is smtp.gmail.com)
     - Port number (default is 465)
 - Program will run at startup after it is manually run once
 
