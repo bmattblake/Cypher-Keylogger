@@ -33,7 +33,7 @@ Make sure that you have entered the corrected login creditials.
 
 If the problem persists, you may have to allow less secure apps to access your google account. 
 
-- More information here: https://support.google.com/accounts/answer/6010255.
+- You can find more information on this subject here: https://support.google.com/accounts/answer/6010255.
 - ***DO NOT DISABLE THIS FEATURE ON YOUR PERSONAL GMAIL ACCOUNT***. Disabling this security feature will make your google account more vulnerable to attacks. 
 
 ---
