@@ -46,6 +46,7 @@ You have two options:
     ```server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)```  
     to  
     ```server = smtplib.SMTP(SMTP_SERVER, PORT)```
+    - Note: Due to Google's strict security policies, you will not be able to send an eamil via ```smtp.gmail.com``` withought SSL/TLS 
 
 ---
 
