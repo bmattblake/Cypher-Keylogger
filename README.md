@@ -42,7 +42,7 @@ ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1129)
 ```
 You have two options:
  - Make sure that your port number is 465. Port 465 is used for implicit TLS.
- - If you do not want to use port 465, then change line 109 from  
+ - If you do not  to use port 465, change line 109 from  
     ```server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)```  
     to  
     ```server = smtplib.SMTP(SMTP_SERVER, PORT)```
