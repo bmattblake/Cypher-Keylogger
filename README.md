@@ -4,15 +4,15 @@
 
 **Note that [L CTRL + F12] is the only way to stop the keylogger once it is running.**
 
-This is a basic keylogger. It captures keystrokes and records them locally in a file ```keylog.txt```.
+This is a basic keylogger. It captures keystrokes and records them locally in a file ```keylogs.txt```.
 
-The script will then email ```keylog.txt``` to a specified email address.
+Immediately after the keylogger is stopped, the script will then email ```keylogs.txt``` to a specified email address.
 
 ---
 
 **FEATURES:**
 
-- Local Storage: Stores logs in a file ```keylog.txt```.
+- Local Storage: Stores logs in a file ```keylogs.txt```.
 - Email: Sends logs to a specified email address. Note: You must specify the following:
     - Sender email address
     - Sender email address account password
