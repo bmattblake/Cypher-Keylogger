@@ -36,6 +36,12 @@ If the problem persists, you may have to allow less secure apps to access your g
 - You can find more information on this subject here: https://support.google.com/accounts/answer/6010255.
 - ***DO NOT DISABLE THIS FEATURE ON YOUR PERSONAL GMAIL ACCOUNT***. Disabling this security feature will make your google account more vulnerable to attacks. Making an entirely new google account hat is not associated with your personal account(s) is recommended.
 
+If you get the following error:
+```
+ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1129)
+```
+Make sure that your port number is 465. Poert 465 is used for implicit TLS.
+
 ---
 
 
