@@ -6,7 +6,9 @@
 
 This is a basic keylogger. It captures keystrokes and records them locally in a file ```keylogs.txt```.
 
-Immediately after the keylogger is stopped, the script will then email ```keylogs.txt``` to a specified email address.
+After a certain number of keystrokes (specified by the attacker), the script will email ```keylogs.txt``` to a specified email address.
+
+Additionally, immediately after the keylogger is stopped, the script will email ```keylogs.txt``` to a specified email address.
 
 ---
 
@@ -42,7 +44,7 @@ ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1129)
 ```
 You have two options:
  - Make sure that your port number is 465. Port 465 is used for implicit TLS.
- - If you do not wish to use port 465, change line 109 from  
+ - If you do not wish to use port 465, change line 112 from  
     ```server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)```  
     to  
     ```server = smtplib.SMTP(SMTP_SERVER, PORT)```
