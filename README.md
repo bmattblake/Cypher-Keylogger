@@ -44,9 +44,9 @@ ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1129)
 ```
 You have two options:
  - Make sure that your port number is 465. Port 465 is used for implicit TLS.
- - If you do not wish to use port 465, change line 112 from  
+ - If you do not wish to use port 465, change [this line of code](https://github.com/bmattblake/Keylogger/blob/d992c8f8be0de920a1887fe8953062fe032b82be/keylogger.py#L112) from:  
     ```server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)```  
-    to  
+    to:  
     ```server = smtplib.SMTP(SMTP_SERVER, PORT)```
     - Note: Due to Google's strict security policies, you will not be able to send an eamil via ```smtp.gmail.com``` withought SSL/TLS 
 
