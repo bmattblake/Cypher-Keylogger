@@ -17,7 +17,7 @@ Additionally, immediately after the keylogger is stopped, the script will email 
  - [Specify recipient address](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L27)
  - [Specify sender address](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L28)
  - [Enter sender email address password](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L29)
- - Run the program.
+ - Run the program
 
 ---
 
