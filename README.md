@@ -37,6 +37,10 @@ Additionally, immediately after the keylogger is stopped, the script will email 
 
 **TROUBLESHOOTING:**
 
+<u>If you connection to the SMPT server is closing unexpectedly, or you get an error message stating that the username and password cobination is incorrect:</u>
+- Make sure to allow less-secure (third-party) apps to login to your email address
+- Ensure that the smtp server that you provided is up
+
 If your sender email address is a gmail account, and you are getting the following error:
 ```
 smtplib.SMTPAuthenticationError: (535, b'5.7.8 Username and Password not accepted. Learn more at\n5.7.8  https://support.google.com/mail/?p=BadCredentials k125-20020a37a183000000b005f170f7e497sm4061876qke.47 - gsmtp')
