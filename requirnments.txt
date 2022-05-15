@@ -3,3 +3,4 @@ Python 3
 
 # Python Modules:
 pynput 
+PyWin32
