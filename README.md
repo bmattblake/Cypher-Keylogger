@@ -16,6 +16,7 @@ Additionally, immediately after the keylogger is stopped, the script will email 
 
  - [Specify recipient address](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L27)
  - [Specify sender address](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L28)
+ - [Specify SMTP server](https://github.com/bmattblake/Keylogger/blob/67178dce4ee9370cb8e54c697f869655d1f6542d/keylogger.py#L27)
  - [Enter sender email address password](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L29)
  - Run the program
  - Press [Left CTRL + F12] to stop the keylogger
@@ -29,7 +30,7 @@ Additionally, immediately after the keylogger is stopped, the script will email 
     - Sender email address
     - Sender email address account password
     - Recipient email address
-    - SMTP server (default is ```smtp.gmail.com```)
+    - SMTP server
     - Port number (default is 465)
 - Program will automatically run at startup after it is manually executed once
 
