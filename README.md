@@ -18,7 +18,7 @@ Additionally, immediately after the keylogger is stopped, the script will email 
  - [Specify sender address](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L28)
  - [Specify SMTP server](https://github.com/bmattblake/Keylogger/blob/67178dce4ee9370cb8e54c697f869655d1f6542d/keylogger.py#L27)
  - [Enter sender email address password](https://github.com/bmattblake/Keylogger/blob/03cdb6ba52fdc4e172cd5e9594bc482c376670ff/keylogger.py#L29)
- - Run the program
+ - Run the program on victim's Windows computer
  - Press [Left CTRL + F12] to stop the keylogger
 
 ---
