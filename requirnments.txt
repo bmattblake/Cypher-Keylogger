@@ -2,5 +2,9 @@
 Python 3
 
 # Python Modules:
-pynput 
+pynput
+  pip instal pynput
 PyWin32
+  pip install PyWin32
+dotenv
+  pip install python-dotenv
