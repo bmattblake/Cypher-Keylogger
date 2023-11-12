@@ -11,7 +11,7 @@ USER = os.getlogin()
 FILE_NAME = basename(sys.argv[0].split("\\")[-1])
 try:
     PUBLIC_IP = urllib.request.urlopen('https://ident.me').read().decode('utf8')
-except urllib.error.URLError:
+except:
     PUBLIC_IP = None
 
 dotenv.load_dotenv(".env")
