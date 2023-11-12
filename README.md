@@ -1,5 +1,7 @@
 # Cypher Keylogger
 
+![Sample Output](/docs/sample_output.png)
+
 **DESCRIPTION:**
 
 **Note that by default, [L CTRL + F12] is the only way to stop the keylogger once it is running.**
