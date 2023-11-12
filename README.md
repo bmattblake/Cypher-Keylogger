@@ -43,7 +43,7 @@ PUBLIC_IP = None
 
 **TROUBLESHOOTING:**
 
-`<u>`If you connection to the SMPT server is closing unexpectedly, or you get an error message stating that the username and password cobination is incorrect:`</u>`
+<u>If you connection to the SMPT server is closing unexpectedly, or you get an error message stating that the username and password cobination is incorrect:</u>
 
 - Make sure to allow less-secure (third-party) apps to login to your email address
 - Ensure that the smtp server that you provided is up
